@@ -1,0 +1,15 @@
+name: Build & Test
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+  workflow_dispatch:      
+jobs:
+  build-and-test:
+    name: "Build & Test"
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: docker build -t fianca-enviar-carta-parecer-credito-svc .
