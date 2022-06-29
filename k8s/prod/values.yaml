@@ -1,0 +1,46 @@
+replicaCount: 1
+
+image:
+  pullPolicy: IfNotPresent
+
+envEnabled: true
+env:
+- name: "NODE_ENV"
+  value: "prod"
+- name: "TZ"
+  value: America/Sao_Paulo
+- name: "ELASTIC_APM_SERVER_URL"
+  value: "http://172.20.34.142:8200"
+- name: "ELASTIC_APM_SERVICE_NAME"
+  value: "K8S_PORTAL_PARCEIRO_UPDATE_STATUS_AGGR_SVC"
+- name: "ELASTIC_APM_ENVIRONMENT"
+  value: "production"
+- name: "AWS_REGION"
+  value: "sa-east-1"
+- name: "AWS_ACCESS_KEY_ID"
+  value: "OIfXdbakcoY+6XOrU3tlnGjkQlcz5mw3nlICu07R" 
+- name: "AWS_SQS_MICROSERVICE_QUEUE_URL"
+  value: "https://sqs.us-east-2.amazonaws.com/851899389592/fianca-enviar-carta-parecer-credito"
+- name: "AWS_SQS_MICROSERVICE_QUEUE_NAME"
+  value: "fianca-enviar-carta-parecer-credito"
+
+secretEnabled: true
+secret:
+- name: "AWS_SECRET_ACCESS_KEY"
+  key: "AWS_SECRET_ACCESS_KEY"
+
+resource:
+  limits:
+    memory: 512Mi
+    cpu: 300m
+
+autoscaling:
+  enabled: true
+  minReplicas: 0
+  maxReplicas: 50
+  SQS:
+    enabled: false
+    pollingInterval: 5
+    queueURL: "https://sqs.us-east-2.amazonaws.com/851899389592/fianca-enviar-carta-parecer-credito"
+    targetMessages: 1
+    awsRegion: "sa-east-1"
